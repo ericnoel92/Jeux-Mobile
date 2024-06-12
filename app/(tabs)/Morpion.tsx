@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Button, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button, Alert, ImageBackground } from 'react-native';
 
 interface State {
   board: (string | null)[];
@@ -147,7 +147,10 @@ export default class Morpion extends Component<{}, State> {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ImageBackground
+        source={require('@/assets/images/Morpion.png')}
+        style={styles.container}
+      >
         <View style={styles.board}>
           {this.state.board.map((cell, index) => this.renderCell(index))}
         </View>
@@ -163,7 +166,7 @@ export default class Morpion extends Component<{}, State> {
           title="Réinitialiser la partie"
           onPress={this.resetBoard}
         />
-      </View>
+      </ImageBackground>
     );
   }
 }

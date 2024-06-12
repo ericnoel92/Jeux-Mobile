@@ -1,0 +1,14 @@
+@startuml eric
+
+left to right direction
+
+actor Utilisateur
+participant InscriptionPage
+
+Utilisateur --> InscriptionPage : Remplir le formulaire d'inscription
+Utilisateur --> InscriptionPage : Appuyer sur le bouton "S'inscrire"
+InscriptionPage --> Utilisateur : Afficher une alerte si des champs sont vides
+InscriptionPage --> Utilisateur : Afficher une alerte en cas d'erreur lors de l'inscription
+InscriptionPage --> Utilisateur : Réinitialiser les champs du formulaire après une inscription réussie
+
+@enduml
