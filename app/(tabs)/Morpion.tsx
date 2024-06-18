@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Button, Alert, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button, Alert, Image } from 'react-native';
 
 interface State {
   board: (string | null)[];
@@ -147,10 +147,11 @@ export default class Morpion extends Component<{}, State> {
 
   render() {
     return (
-      <ImageBackground
-        source={require('@/assets/images/Morpion.png')}
-        style={styles.container}
-      >
+      <View style={styles.container}>
+        <Image
+          source={require('@/assets/images/Morpion.png')} // Remplacez par le chemin de votre image de logo
+          style={styles.logo}
+        />
         <View style={styles.board}>
           {this.state.board.map((cell, index) => this.renderCell(index))}
         </View>
@@ -166,7 +167,7 @@ export default class Morpion extends Component<{}, State> {
           title="Réinitialiser la partie"
           onPress={this.resetBoard}
         />
-      </ImageBackground>
+      </View>
     );
   }
 }
@@ -176,6 +177,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    marginBottom: 20,
   },
   board: {
     width: 300,
