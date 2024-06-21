@@ -41,7 +41,7 @@ export default class App extends Component<{}, State> {
 
   fetchQuestions = async () => {
     try {
-      const response = await fetch('https://opentdb.com/api.php?amount=20&category=27&type=multiple');
+      const response = await fetch('http://192.168.1.27:3001/questions');
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

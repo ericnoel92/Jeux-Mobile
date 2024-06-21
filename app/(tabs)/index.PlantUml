@@ -1,14 +1,30 @@
-@startuml eric
-
-left to right direction
-
+@startuml eric 
 actor Utilisateur
-participant InscriptionPage
 
-Utilisateur --> InscriptionPage : Remplir le formulaire d'inscription
-Utilisateur --> InscriptionPage : Appuyer sur le bouton "S'inscrire"
-InscriptionPage --> Utilisateur : Afficher une alerte si des champs sont vides
-InscriptionPage --> Utilisateur : Afficher une alerte en cas d'erreur lors de l'inscription
-InscriptionPage --> Utilisateur : Réinitialiser les champs du formulaire après une inscription réussie
+rectangle "Application" {
+    usecase "Saisir Email et Mot de Passe" as UC1
+    usecase "Connexion" as UC2
+    usecase "Supprimer Mes Infos" as UC3
+    usecase "Afficher Message de Connexion" as UC4
+    usecase "Afficher Message d'Erreur" as UC5
+}
 
+rectangle "Backend API" {
+    usecase "Vérifier Informations Utilisateur" as UC6
+    usecase "Supprimer Informations Utilisateur" as UC7
+}
+
+Utilisateur -> UC1 : Remplit Email et Mot de Passe
+Utilisateur -> UC2 : Appuie sur "Se Connecter"
+Utilisateur -> UC3 : Appuie sur "Supprimer Mes Infos"
+
+UC2 --> UC6 : Vérifie les informations
+UC6 <-- UC2 : Retourne les résultats de la vérification
+
+UC3 --> UC7 : Supprime les informations de l'utilisateur
+UC7 <-- UC3 : Retourne les résultats de la suppression
+
+UC2 --> UC4 : Affiche Message de Connexion Réussie
+UC2 --> UC5 : Affiche Message d'Erreur de Connexion
+UC3 --> UC5 : Affiche Message d'Erreur de Suppression
 @enduml

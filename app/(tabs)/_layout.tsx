@@ -70,15 +70,6 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="Tetrix"
-        options={{
-          title: 'Tetrix',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="Question"
         options={{
           title: 'Question',
