@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
 
 interface Question {
-  id: number;
-  questionText: string;
+  id: string;
+  question: string;
   options: string[];
-  correctAnswer: string;
+  answer: string;
   explanation: string;
 }
 
@@ -20,7 +20,7 @@ interface State {
   showExplanation: boolean;
 }
 
-export default class App extends Component<{}, State> {
+export default class NewQuiz extends Component<{}, State> {
   constructor(props: {}) {
     super(props);
     this.state = {
@@ -45,28 +45,11 @@ export default class App extends Component<{}, State> {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      const data = await response.json();
-      console.log("Data received from API:", data); // Vérification des données reçues
+      const data: Question[] = await response.json();
+      console.log("Data received from API:", data);
 
-      if (data.response_code !== 0) {
-        throw new Error('API returned an error response');
-      }
-
-      const questions: Question[] = data.results.map((item: any, index: number) => {
-        const options = [...item.incorrect_answers, item.correct_answer].sort(() => Math.random() - 0.5);
-
-        return {
-          id: index,
-          questionText: item.question,
-          options: options,
-          correctAnswer: item.correct_answer,
-          explanation: '' // Vous pouvez remplir l'explication ici si nécessaire
-        };
-      });
-
-      console.log("Questions fetched: ", questions);
       this.setState({
-        questions,
+        questions: data,
         isLoading: false
       });
     } catch (error: unknown) {
@@ -86,7 +69,7 @@ export default class App extends Component<{}, State> {
     const { currentQuestionIndex, score, questions } = this.state;
     const currentQuestion = questions[currentQuestionIndex];
 
-    if (answer === currentQuestion.correctAnswer) {
+    if (answer === currentQuestion.answer) {
       this.setState((prevState) => ({
         score: prevState.score + 1,
         selectedAnswer: answer
@@ -165,7 +148,7 @@ export default class App extends Component<{}, State> {
             <ScrollView style={styles.explanationContainer}>
               {questions.map((question, index) => (
                 <View key={index} style={styles.explanationItem}>
-                  <Text style={styles.questionText}>{question.questionText}</Text>
+                  <Text style={styles.questionText}>{question.question}</Text>
                   <Text style={styles.explanationText}>{question.explanation}</Text>
                 </View>
               ))}
@@ -179,13 +162,13 @@ export default class App extends Component<{}, State> {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.questionText}>{currentQuestion.questionText}</Text>
+        <Text style={styles.questionText}>{currentQuestion.question}</Text>
         {currentQuestion.options.map((option, index) => (
           <TouchableOpacity
             key={index}
             style={[
               styles.optionButton,
-              selectedAnswer === option && (option === currentQuestion.correctAnswer ? styles.correctAnswer : styles.incorrectAnswer)
+              selectedAnswer === option && (option === currentQuestion.answer ? styles.correctAnswer : styles.incorrectAnswer)
             ]}
             onPress={() => this.handleAnswer(option)}
             disabled={selectedAnswer !== null}
